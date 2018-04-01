@@ -1,0 +1,3 @@
+[submodule "customizer"]
+	path = customizer
+	url = https://github.com/pattonwebz/customizer-framework
