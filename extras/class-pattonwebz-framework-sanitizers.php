@@ -1,18 +1,14 @@
 <?php
 /**
  * START SANITIZATION FILTERS.
- *
- * @package Pattonwebz_Framework
- * @since 1.0.0
  */
 
-/**
- * Holder class for some sanitization functions.
- */
-class PattonWebz_Framework_Sanitizers {
+namespace PattonWebz\Framework;
+
+class Sanitizers {
 
 	/**
-	 * Sanitization for textarea field against list of allowed tags in posts.
+	 * Sanitization for textarea field against list of allwed tags in posts.
 	 *
 	 * @param string $input     text area string to sanitize.
 	 *
@@ -20,7 +16,8 @@ class PattonWebz_Framework_Sanitizers {
 	 */
 	public static function textarea( $input ) {
 		global $allowedposttags;
-		return wp_kses( $input, $allowedposttags );
+		$output = wp_kses( $input, $allowedposttags );
+		return $output;
 	}
 
 	/**
@@ -31,7 +28,8 @@ class PattonWebz_Framework_Sanitizers {
 	 * @return booleen $output
 	 */
 	public static function checkbox_truefalse( $input ) {
-		// If we have any input consider it as true - anything else is false.
+		// Checkbox is booleen, it can only be in 2 states, if we have any input
+		// consider it as true otherwise it's false.
 		if ( $input ) {
 			$output = true;
 		} else {
@@ -49,7 +47,7 @@ class PattonWebz_Framework_Sanitizers {
 	 */
 	public static function image_type( $input ) {
 
-		// allowed file types, allows only jpeg, gif, png - no svg or others.
+		// allowed file types.
 		$mimes = array(
 			'jpg|jpeg|jpe' => 'image/jpeg',
 			'gif'          => 'image/gif',
@@ -68,7 +66,9 @@ class PattonWebz_Framework_Sanitizers {
 	}
 
 	/**
-	 * Sanitize inputs of select box customizer setting. Expects no HTML.
+	 * Sanitize inputs of select box customizer setting.
+	 *
+	 * NOTE: This only sanitizes against the list of select box choices.
 	 *
 	 * @param  string $input   String containing a value from select box.
 	 * @param  mixed  $setting Object containing the info about the
@@ -88,7 +88,7 @@ class PattonWebz_Framework_Sanitizers {
 	}
 
 	/**
-	 * Sanitize integers (term ids) from a select box choice.
+	 * Sanitize term ids from a select box customizer setting.
 	 *
 	 * NOTE: This only sanitizes as an integer - it does not validate as an existing term.
 	 *
